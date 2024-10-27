@@ -1,30 +1,26 @@
-'use client';
-
-import { useEffect } from 'react';
+import User from '@/components/user';
 
 export default function Home() {
-  const handleLogin = () => {
-    window.location.href = 'http://localhost:3000/login/federated/google';
+  const logoutAction = async () => {
+    'use server';
+    const result = await fetch('http://localhost:3000/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    console.log(result.status);
   };
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const res = await fetch('http://localhost:3000/user', {
-        credentials: 'include',
-      });
-
-      console.log(res.ok);
-
-      const user = await res.json();
-      console.log(user);
-    };
-
-    checkUser();
-  }, []);
-
   return (
     <main>
-      <button onClick={handleLogin}>login</button>
+      <User />
+      <hr />
+      <a href="http://localhost:3000/login/federated/google">
+        Login with Google
+      </a>
+
+      <form action={logoutAction}>
+        <button type="submit">Logout</button>
+      </form>
     </main>
   );
 }
