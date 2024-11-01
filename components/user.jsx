@@ -1,27 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useAuth } from './auth-context';
 
 export default function User() {
-  const [user, setUser] = useState(null);
-  const [err, setErr] = useState(null);
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const res = await fetch('http://localhost:3000/user', {
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        setErr({ message: 'response error' });
-        return;
-      }
-
-      setUser(await res.json());
-    };
-
-    checkUser();
-  }, []);
+  const { user } = useAuth();
 
   return (
     <>
